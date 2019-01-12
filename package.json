@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/genSouza/electron-course#readme",
   "dependencies": {
+    "async": "^2.6.1",
     "electron": "^4.0.1",
     "osenv": "^0.1.5"
   }
