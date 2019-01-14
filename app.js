@@ -69,7 +69,6 @@ function main() {
         if (err) {
             return alert("Sorry, could not load your home folder");
         }
-
         inspectAndDescribeFiles(folderPath, files, displayFiles);
     });
 }
