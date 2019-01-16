@@ -23,6 +23,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "electron": "^4.0.1",
+    "lunr": "^2.3.5",
     "osenv": "^0.1.5"
   }
 }
