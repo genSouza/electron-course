@@ -2,30 +2,32 @@
 
 let document;
 const fileSystem = require('./FileSystem');
+const search = require('./Search');
 
-function displayFolderPath(folderPath){
+function displayFolderPath(folderPath) {
     document.getElementById('current-folder').innerText = folderPath;
 }
 
-function clearView(){
+function clearView() {
     const mainArea = document.getElementById('main-area');
     let firstChild = mainArea.firstChild;
-    while(firstChild){
+    while (firstChild) {
         mainArea.removeChild(firstChild);
         firstChild = mainArea.firstChild;
     }
 }
 
-function loadDirectory(folderPath){
-    return function(window){
-        if(!document) document = window.document;
+function loadDirectory(folderPath) {
+    return function (window) {
+        if (!document) document = window.document;
+        search.resetIndex(); //reset the search index
         displayFolderPath(folderPath);
-        fileSystem.getFilesInFolder(folderPath, (err,files)=>{
-         clearView();
-            if(err){
+        fileSystem.getFilesInFolder(folderPath, (err, files) => {
+            clearView();
+            if (err) {
                 return alert('Sorry,you could not load you folder');
-            }       
-            fileSystem.inspectAndDescribeFiles(folderPath,files,displayFiles);
+            }
+            fileSystem.inspectAndDescribeFiles(folderPath, files, displayFiles);
         });
     }
 }
@@ -35,15 +37,18 @@ function displayFile(file) {
     const template = document.querySelector('#item-template');
 
     let clone = document.importNode(template.content, true);
+    search.addToIndex(file); //search index
+
     clone.querySelector('img').src = `images/${file.type}.svg`;
-    
+    clone.querySelector('img').setAttribute('data-filePath', file.path);
+
     //double click event listener
-    if(file.type === 'directory'){
-        clone.querySelector('img').addEventListener('dblclick',()=>{
+    if (file.type === 'directory') {
+        clone.querySelector('img').addEventListener('dblclick', () => {
             loadDirectory(file.path)();
-        },false);
+        }, false);
     }
-    
+
     clone.querySelector('.filename').innerText = file.file;
     mainArea.appendChild(clone);
 }
@@ -61,8 +66,41 @@ function bindDocument(window) {
     }
 }
 
+function bindSearchField(cb) {
+    document.getElementById('search').addEventListener('keyup', cb, false);
+}
+
+function filterResults(results) {
+    const validFilePaths = results.map((result) => {
+        return result.ref;
+    });
+
+    const items = document.getElementsByClassName('item');
+    for (var i = 0; i < items.length; i++) {
+        let item = items[i];
+        let filePath = item.getElementsByTagName('img')[0].getAttribute('data-filepath');
+
+        if (validFilePaths.indexOf(filePath) !== -1) { //the file match with one of search results?
+            item.style = null; //if so, make the file visible
+        } else {
+            item.style = 'display:none;'; //if not, hide the file
+        }
+
+    }
+}
+
+function resetFilter() {
+    const items = document.getElementsByClassName('item');
+    for (var i = 0; i < items.length; i++) {
+        items[i].style = null;
+    }
+}
+
 module.exports = {
     bindDocument,
     displayFiles,
-    loadDirectory
+    loadDirectory,
+    bindSearchField,
+    filterResults,
+    resetFilter
 };
