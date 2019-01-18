@@ -4,7 +4,9 @@
   "description": "Cap 02 - Paul B. Jensen - Cross-Platform Desktop Applications_ Using Node, Electron, and NW.js-Manning Publications (2017)",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build",
+    "dist": "build"
   },
   "repository": {
     "type": "git",
@@ -22,8 +24,16 @@
   "homepage": "https://github.com/genSouza/electron-course#readme",
   "dependencies": {
     "async": "^2.6.1",
-    "electron": "^4.0.1",
     "lunr": "^0.7.2",
+    "npm": "^6.6.0",
     "osenv": "^0.1.5"
-  }
+  },
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-builder": "^20.38.5",
+    "normalize-package-data": "^2.4.0",
+    "spdx-correct": "^3.1.0"
+  },
+  "build": {},
+  "icon": "favicon.ico"
 }
