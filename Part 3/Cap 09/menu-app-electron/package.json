@@ -4,8 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "electron ."
+    "start": "electron ."
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^4.0.2"
+  }
 }
