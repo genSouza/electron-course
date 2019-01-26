@@ -1,0 +1,16 @@
+{
+  "name": "watchy-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^4.0.2",
+    "electron-notifications": "^1.0.0",
+    "twitter": "^1.7.1"
+  }
+}
